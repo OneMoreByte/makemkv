@@ -18,7 +18,7 @@ jobs:
         id: build-container
         uses: redhat-actions/buildah-build@v2
         with:
-          image: ghcr.io/onemorebyte/makemkv
+          image: ghcr.io/onemorebyte/makemkvcon
           tags: latest ${{github.env.tag}}
           containerfiles: |
             Dockerfile
