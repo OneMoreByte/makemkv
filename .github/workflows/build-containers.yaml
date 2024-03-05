@@ -1,0 +1,33 @@
+---
+name: Build container
+on:
+  push:
+    tags:
+      - "**"
+
+jobs:
+  build-container:
+    name: Build container
+    continue-on-error: true
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Get tag
+        run: echo "tag=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
+      - name: build container
+        id: build-container
+        uses: redhat-actions/buildah-build@v2
+        with:
+          image: ghcr.io/onemorebyte/makemkv
+          tags: latest ${{github.env.tag}}
+          containerfiles: |
+            Dockerfile
+
+      - name: push to image repo
+        uses: redhat-actions/push-to-registry@v2
+        with:
+          image: ${{ steps.build-container.outputs.image }}
+          tags: ${{ steps.build-container.outputs.tags }}
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
