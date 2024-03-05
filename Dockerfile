@@ -24,13 +24,13 @@ RUN tar zxf makemkv-bin-${VERSION}.tar.gz; \
   tar zxf makemkv-oss-${VERSION}.tar.gz; \
   mkdir -p /workdir/installdir
 
-WORKDIR /wordir/installdir
+WORKDIR /wordir/makemkv-oss-${VERSION}
 RUN ./configure && make DESTDIR=/workdir/installdir/ install
 
-# I consider this accepting the EULA
-RUN echo "exit 0" > makemkv-bin-${VERSION}/src/ask_eula.sh
 
 WORKDIR /workdir/makemkv-bin-${VERSION}
+# I consider this accepting the EULA
+RUN echo "exit 0" > src/ask_eula.sh
 RUN make && make DESTDIR=/workdir/installdir/ install 
 
 FROM docker.io/debian:stable-slim
