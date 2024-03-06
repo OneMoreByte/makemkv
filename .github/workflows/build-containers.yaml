@@ -13,7 +13,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Get tag
-        run: echo "tag=${GITHUB_REF#refs/*/}" >> $env
+        run: echo "tag=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
       - name: build container
         id: build-container
         uses: redhat-actions/buildah-build@v2
