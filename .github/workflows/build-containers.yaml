@@ -13,13 +13,13 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Get tag
-        run: echo "tag=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
+        run: echo "tag=${GITHUB_REF#refs/*/}" >> $env
       - name: build container
         id: build-container
         uses: redhat-actions/buildah-build@v2
         with:
           image: ghcr.io/onemorebyte/makemkvcon
-          tags: latest ${{github.env.tag}}
+          tags: latest ${{env.tag}}
           containerfiles: |
             Dockerfile
 
